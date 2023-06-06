@@ -1,0 +1,124 @@
+<div class="container mt-3">
+  <div class="row pt-3">
+    <div class="col-12">
+      <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#myModal">Add User</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <table mat-table [dataSource]="users" class="custom-table">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef class="custom-header">Id</th>
+          <td mat-cell *matCellDef="let user" class="custom-cell">{{ user.id }}</td>
+        </ng-container>
+        
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="custom-header">Name</th>
+          <td mat-cell *matCellDef="let user" class="custom-cell">{{ user.name }}</td>
+        </ng-container>
+        
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef class="custom-header">Email</th>
+          <td mat-cell *matCellDef="let user" class="custom-cell">{{ user.email }}</td>
+        </ng-container>
+      
+        <ng-container matColumnDef="gender">
+          <th mat-header-cell *matHeaderCellDef class="custom-header">Gender</th>
+          <td mat-cell *matCellDef="let user" class="custom-cell">{{ user.gender }}</td>
+        </ng-container>
+      
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef class="custom-header">Status</th>
+          <td mat-cell *matCellDef="let user" class="custom-cell">{{ user.status }}</td>
+        </ng-container>
+        
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef class="custom-header">Edit</th>
+          <td mat-cell *matCellDef="let user" class="custom-cell" (click)="editUser(user)" data-bs-toggle="modal" data-bs-target="#myModal"> <mat-icon>edit</mat-icon></td>
+        </ng-container>
+      
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef class="custom-header">Delete</th>
+          <td mat-cell *matCellDef="let user" class="custom-cell" (click)="deleteUser(user.id)"> <mat-icon>delete</mat-icon></td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">USER</h4>
+          <button type="button" class="btn-close" #myModalClose data-bs-dismiss="modal" (click)="close()"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form class="form-horizontal" #userForm="ngForm" (ngSubmit)="onsubmit()">
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="name">Name:</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" [(ngModel)]="user.name">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="email">Email:</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" [(ngModel)]="user.email">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="gender">Gender:</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender" id="male" value="male" [(ngModel)]="user.gender">
+                    <label class="form-check-label" for="male">
+                      Male
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender" id="female" value="female" [(ngModel)]="user.gender">
+                    <label class="form-check-label" for="female">
+                      Female
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col">
+                <div class="form-group">
+                  <label for="status">Status:</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="status" id="active" value="active" [(ngModel)]="user.status">
+                    <label class="form-check-label" for="active">
+                      Active
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="status" id="inactive" value="inactive" [(ngModel)]="user.status">
+                    <label class="form-check-label" for="inactive">
+                      Inactive
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="submit" *ngIf="!edit" class="btn btn-primary">Submit</button>
+            <button type="submit" *ngIf="edit" class="btn btn-primary">Update</button>
+          </form>
+        </div>  
+      </div>
+    </div>
+  </div>
+</div>
