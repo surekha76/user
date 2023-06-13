@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiCallService } from '../../services/api-call.service';
+import { WebsocketServicesService } from '../../services/websocket-services.service';
 import { filter } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { NgForm } from '@angular/forms';
@@ -19,9 +20,14 @@ export class UserListComponent implements OnInit {
   public user$ = of(this.user);
   edit:boolean = false;
 
-  constructor(private apiService:ApiCallService) { }
+  constructor(private apiService:ApiCallService, private websocketService:WebsocketServicesService) { 
+  }
 
   ngOnInit() {
+    this.websocketService.isclosed();
+    if (!this.websocketService.isclosed()) {
+      this.apiService.showError("Websocket didn't connected");
+    }
     this.apiService.getUserList().subscribe(response => {
       console.log(response);
       this.users = response;
@@ -29,6 +35,20 @@ export class UserListComponent implements OnInit {
       this.apiService.showError('Error occured');
       console.error(error);
     });    
+  }
+  connect(){
+    const result = this.websocketService.connect();
+    console.log("result "+result);
+    this.apiService.showSuccess("Wesocket Server connected");
+  }
+  disconnect(){
+    const result = this.websocketService.disconnect();
+    console.log("disconnect "+result);
+    if (!result){
+      this.apiService.showError("Websocket doesn't connected");
+    }else {
+      this.apiService.showSuccess("Websocket disconnected successfully");
+    }
   }
   editUser(user){
     this.edit = true;
@@ -75,7 +95,7 @@ export class UserListComponent implements OnInit {
       }, error => {
         this.apiService.showError('Error Occured');
         console.error(error);
-      });  
+      });
     }
   });
   }
