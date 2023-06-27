@@ -1,0 +1,23 @@
+<div class="container">
+  <div id="pivotgrid" class="pt-4">
+    <dx-pivot-grid
+      id="pivotgrid"
+      [allowSortingBySummary]="true"
+      [allowFiltering]="true"
+      [showColumnGrandTotals]="false"
+      [showRowGrandTotals]="false"
+      [showRowTotals]="false"
+      [showColumnTotals]="false"
+      [dataSource]="pivotDataSource"
+      (onInitialized)="onPivotGridInitialized($event)">   
+    </dx-pivot-grid>
+  </div>
+  <div id="pivotchart" class="pt-5">
+    <dx-chart
+    [customizePoint]="customizePoint">
+      <dxo-common-series-settings type="bar" ></dxo-common-series-settings>
+      <dxo-legend [visible]="false"></dxo-legend>
+      <dxo-tooltip [enabled]="true"></dxo-tooltip>
+    </dx-chart>
+  </div>
+</div>
