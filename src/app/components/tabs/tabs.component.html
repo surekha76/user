@@ -1,0 +1,18 @@
+<dx-tab-panel
+  #tabPanel
+  [dataSource]="tabs"
+  [selectedIndex]="0"
+>
+  <div *dxTemplate="let tab of 'title'" class="tab-content" >
+    <span>{{ tab.tab_title }}</span>
+  </div> 
+  <div *dxTemplate="let tab of 'item'" >
+    <ng-container *ngIf="tab.component=='user'">
+      <div> <app-user-list></app-user-list></div>
+    </ng-container>
+    <ng-container *ngIf="tab.component=='atm'">
+      <app-devex></app-devex>
+    </ng-container>
+  </div> 
+ </dx-tab-panel>
+
